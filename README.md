@@ -109,15 +109,57 @@ Con los datos registrados, el frontend puede construir un dashboard de "Progreso
 
 Este ejemplo demuestra cómo la API, con su estructura genérica, puede ser la base para una aplicación especializada, útil y destacable, sin necesidad de modificar el backend.
 
-## Cómo Ejecutar este Proyecto
+## Cómo Ejecutar y Probar la API (Guía para Frontend)
 
-1.  **Instalar dependencias:**
+Esta guía te llevará paso a paso para iniciar el backend y explorarlo por primera vez, incluso si no tienes experiencia con NestJS o Swagger.
+
+### Paso 1: Iniciar el Servidor Backend
+
+Primero, necesitamos que el servidor de la API esté funcionando en tu máquina.
+
+1.  **Instalar dependencias:** Abre una terminal en la carpeta del proyecto y ejecuta:
     ```bash
     npm install
     ```
-2.  **Iniciar el servidor en modo de desarrollo:**
+2.  **Iniciar el servidor en modo de desarrollo:** Una vez terminada la instalación, ejecuta:
     ```bash
     npm run start:dev
     ```
-3.  La API estará disponible en `http://localhost:3000`.
-4.  La documentación interactiva de Swagger se encuentra en `http://localhost:3000/api`.
+    Este comando compila el proyecto y levanta un servidor local que se reinicia automáticamente si haces cambios en el código. Verás un mensaje indicando que la aplicación se ha iniciado correctamente.
+
+### Paso 2: Descubrir la API con Swagger
+
+**¿Qué es Swagger?** Imagina que es un **menú interactivo y un campo de pruebas para la API**, todo en una página web. Como desarrollador frontend, es tu mejor amigo: te permite ver todos los endpoints, qué datos necesitan y probarlos en tiempo real sin escribir una línea de `fetch` y sin usar herramientas como Postman.
+
+1.  **Accede a la documentación:** Con el servidor corriendo, abre tu navegador web y ve a la siguiente URL:
+    
+    `http://localhost:3000/api`
+
+    (El backend corre en `localhost:3000` y hemos configurado Swagger para que viva en la ruta `/api`).
+
+2.  **Explora la interfaz:** Verás el título de la API y dos secciones: `events` y `stats`. Estos son los grupos de endpoints que puedes usar.
+
+### Paso 3: Tu Primera Llamada a la API (sin código)
+
+Vamos a hacer una llamada simple para ver el total de eventos.
+
+1.  **Expande un endpoint:** Haz clic en la barra (usualmente azul o verde) de `GET /stats/total` para que se desplieguen los detalles.
+2.  **Activa el modo de prueba:** Verás un botón a la derecha que dice **`Try it out`**. Haz clic en él.
+3.  **Ejecuta la llamada:** El área se volverá editable, y aparecerá un botón azul grande que dice **`Execute`**. Haz clic en él.
+4.  **Revisa la respuesta:** Justo debajo, verás la sección **`Server response`**. Te mostrará el código de respuesta (ej: `200`) y el cuerpo (`body`) de la respuesta real de la API, que será algo como `{"total": 0}`.
+
+    *¡Felicidades! Acabas de hacer tu primera llamada a la API directamente desde el navegador.*
+
+### Paso 4: Tu Segunda Llamada a la API (Creando Datos)
+
+Ahora, vamos a crear un evento para ver cómo funciona una petición `POST`.
+
+1.  **Expande el endpoint `POST /events`**.
+2.  Haz clic en **`Try it out`**.
+3.  **Modifica el cuerpo de la petición:** Verás un campo de texto llamado **`Request body`** con un ejemplo en formato JSON. Puedes editarlo. Por ejemplo, cambia el `value` a `95` y el `type` a `"examen_matematicas"`.
+4.  Haz clic en **`Execute`**.
+5.  **Revisa la respuesta:** La respuesta del servidor ahora te mostrará el evento completo que acabas de crear, incluyendo el `id` que le asignó el backend.
+
+**Bonus:** Si ahora vuelves a ejecutar la prueba del `GET /stats/total` como en el paso 3, verás que la respuesta ha cambiado. Ahora dirá `{"total": 1}`. Esto demuestra que estás interactuando en tiempo real con la lógica del backend.
+
+Con Swagger, puedes entender y probar cada rincón de la API antes de empezar a construir tu interfaz de usuario, haciendo tu trabajo mucho más fácil y rápido.
