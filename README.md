@@ -32,7 +32,7 @@ La API expone dos grupos principales de endpoints:
 
 ---
 
-## Caso de Uso Principal: "Mi Progreso Académico"
+## Caso de Uso conceptual: "Mi Progreso Académico"
 
 Para demostrar la flexibilidad de esta API, imaginemos que un desarrollador frontend la utiliza para construir una aplicación llamada **"Mi Progreso Académico"**. El objetivo de esta app es ayudar a un estudiante a registrar y analizar su rendimiento escolar.
 
