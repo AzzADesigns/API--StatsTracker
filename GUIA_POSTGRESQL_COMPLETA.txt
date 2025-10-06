@@ -1,0 +1,215 @@
+================================================================================
+                    🚀 GUÍA COMPLETA PARA CONECTAR POSTGRESQL
+================================================================================
+
+Esta guía te llevará paso a paso para conectar tu API StatsTracker a PostgreSQL.
+Todos los códigos están listos para copiar y pegar.
+
+================================================================================
+                                PREPARACIÓN
+================================================================================
+
+PASO 1: INSTALAR DEPENDENCIAS DE NODE.JS
+----------------------------------------
+Abre tu terminal en la carpeta del proyecto y ejecuta:
+
+npm install --save @nestjs/typeorm typeorm pg
+
+Esto instala:
+- @nestjs/typeorm: El pegamento oficial entre NestJS y TypeORM
+- typeorm: El "traductor" que convierte código TypeScript en SQL
+- pg: El motor de PostgreSQL para Node.js
+
+PASO 2: INSTALAR POSTGRESQL EN TU MÁQUINA
+-----------------------------------------
+- Windows: Descarga desde https://www.postgresql.org/download/windows/
+- macOS: brew install postgresql
+- Ubuntu: sudo apt install postgresql postgresql-contrib
+
+PASO 3: CREAR LA BASE DE DATOS
+------------------------------
+1. Abre psql (línea de comandos de PostgreSQL)
+2. Ejecuta: CREATE DATABASE statstracker;
+3. Sal con: \q
+
+================================================================================
+                            CONFIGURACIÓN DE ARCHIVOS
+================================================================================
+
+PASO 4: CREAR ARCHIVO DE CONFIGURACIÓN DE POSTGRESQL
+----------------------------------------------------
+1. Busca el archivo: src/database-postgres.example.ts
+2. RENÓMBRALO a: src/database-postgres.ts
+3. El archivo ya contiene la configuración correcta, solo cambia la contraseña:
+
+export const databaseConfig: TypeOrmModuleOptions = {
+  type: 'postgres',
+  host: 'localhost',
+  port: 5432,
+  username: 'postgres',
+  password: 'password', // ⚠️ CAMBIA ESTA CONTRASEÑA POR LA TUYA
+  database: 'statstracker',
+  entities: [Event],
+  synchronize: true, // Solo para desarrollo - crea tablas automáticamente
+  logging: true, // Muestra las consultas SQL en la consola
+};
+
+PASO 5: ACTUALIZAR APP.MODULE.TS
+--------------------------------
+Abre src/app.module.ts y REEMPLAZA TODO el contenido con esto:
+
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { databaseConfig } from './database-postgres';
+import { EventsModule } from './events/events.module';
+import { StatsModule } from './stats/stats.module';
+
+@Module({
+  imports: [
+    TypeOrmModule.forRoot(databaseConfig),
+    EventsModule,
+    StatsModule,
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+
+PASO 6: ACTUALIZAR EVENTS.MODULE.TS
+----------------------------------
+Abre src/events/events.module.ts y REEMPLAZA TODO el contenido con esto:
+
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Event } from './event.entity';
+import { EventsController } from './events.controller';
+import { EventsService } from './events.service';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([Event])],
+  controllers: [EventsController],
+  providers: [EventsService],
+  exports: [EventsService],
+})
+export class EventsModule {}
+
+PASO 7: ACTUALIZAR EVENTS.SERVICE.TS (OPCIONAL)
+-----------------------------------------------
+Por defecto, tu API funciona perfectamente en memoria. Si quieres usar PostgreSQL:
+
+1. Abre src/events/events.service.ts
+2. REEMPLAZA TODO el código con esto:
+
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Event } from './event.entity';
+import { CreateEventDto, UpdateEventDto } from './events.schemas';
+
+@Injectable()
+export class EventsService {
+  constructor(
+    @InjectRepository(Event)
+    private readonly eventsRepository: Repository<Event>,
+  ) {}
+
+  async findAll(): Promise<Event[]> {
+    return this.eventsRepository.find();
+  }
+
+  async findOne(id: number): Promise<Event> {
+    const found = await this.eventsRepository.findOne({ where: { id } });
+    if (!found) throw new NotFoundException(`Evento ${id} no encontrado`);
+    return found;
+  }
+
+  async create(data: CreateEventDto): Promise<Event> {
+    const newEvent = this.eventsRepository.create(data);
+    return this.eventsRepository.save(newEvent);
+  }
+
+  async update(id: number, data: UpdateEventDto): Promise<Event> {
+    const eventToUpdate = await this.eventsRepository.preload({
+      id: id,
+      ...data,
+    });
+    if (!eventToUpdate) throw new NotFoundException(`Evento ${id} no encontrado`);
+    return this.eventsRepository.save(eventToUpdate);
+  }
+
+  async remove(id: number): Promise<void> {
+    const result = await this.eventsRepository.delete(id);
+    if (result.affected === 0) throw new NotFoundException(`Evento ${id} no encontrado`);
+  }
+}
+
+================================================================================
+                              CONFIGURACIÓN OPCIONAL
+================================================================================
+
+PASO 8: VARIABLES DE ENTORNO (RECOMENDADO)
+------------------------------------------
+Si quieres usar variables de entorno (más seguro):
+
+1. Crea un archivo .env en la raíz del proyecto con:
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USERNAME=postgres
+   DB_PASSWORD=tu_password_aqui
+   DB_NAME=statstracker
+
+2. Cambia la configuración en src/database-postgres.ts por:
+   host: process.env.DB_HOST || 'localhost',
+   port: parseInt(process.env.DB_PORT) || 5432,
+   username: process.env.DB_USERNAME || 'postgres',
+   password: process.env.DB_PASSWORD || 'password',
+   database: process.env.DB_NAME || 'statstracker',
+
+================================================================================
+                                  ¡LISTO!
+================================================================================
+
+Una vez que completes estos pasos:
+
+✅ Tu API se conectará a PostgreSQL
+✅ Los datos se guardarán permanentemente  
+✅ Podrás escalar a producción fácilmente
+✅ No perderás datos al reiniciar el servidor
+
+Para probar:
+1. Ejecuta: npm run start:dev
+2. Ve a: http://localhost:3000/api
+3. Prueba crear eventos - ahora se guardarán en PostgreSQL
+
+================================================================================
+                                ARCHIVOS IMPORTANTES
+================================================================================
+
+📁 Archivos que modificaste:
+- src/database-postgres.ts (renombrado de .example)
+- src/app.module.ts (agregaste TypeORM)
+- src/events/events.module.ts (agregaste TypeORM)
+- src/events/events.service.ts (opcional - versión PostgreSQL)
+
+📁 Archivos que NO tocas:
+- src/events/event.entity.ts (ya está listo)
+- src/events/events.controller.ts (no cambia)
+- src/stats/ (no cambia)
+
+================================================================================
+                               SOLUCIÓN DE PROBLEMAS
+================================================================================
+
+❌ Error "Cannot find module 'typeorm'"
+   → Ejecuta: npm install @nestjs/typeorm typeorm pg
+
+❌ Error de conexión a PostgreSQL
+   → Verifica que PostgreSQL esté ejecutándose
+   → Verifica usuario y contraseña en database-postgres.ts
+   → Verifica que la base de datos 'statstracker' exista
+
+❌ Error "relation 'events' does not exist"
+   → Verifica que synchronize: true esté en la configuración
+   → Reinicia el servidor: npm run start:dev
+
+================================================================================

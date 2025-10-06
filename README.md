@@ -113,75 +113,36 @@ Este ejemplo demuestra cómo la API, con su estructura genérica, puede ser la b
 
 Para que sepas exactamente dónde encontrar todo lo que necesitas:
 
-### 🚀 **Archivos de configuración para escalar:**
-- **`src/database-postgres.example.ts`** - Configuración completa de PostgreSQL (renombra a `database-postgres.ts` para usar)
-- **`src/events/event.entity.ts`** - Modelo de datos para la base de datos
-- **`src/events/events.service.ts`** - Servicio principal (contiene versión comentada para PostgreSQL al final)
+### 🚀 **Para escalar a PostgreSQL:**
+- **`GUIA_POSTGRESQL_COMPLETA.txt`** - Guía completa paso a paso con todo el código
+- **`src/database-postgres.example.ts`** - Archivo de configuración (renombrar a `database-postgres.ts`)
 
-### 📋 **Archivos con instrucciones detalladas:**
-- **`src/database-postgres.example.ts`** - Instrucciones paso a paso para PostgreSQL
-- **`src/events/events.service.ts`** - Código listo para copiar y pegar (comentado al final)
-- **`src/app.module.ts`** - Configuración principal de la app (al final de la hoja hay instrucciones para escalar a una base de datos con postgres)
-
-### 🎯 **Archivos principales (no tocar):**
+### 🎯 **Archivos principales (no modificar):**
+- **`src/app.module.ts`** - Configuración principal de la app
 - **`src/events/events.module.ts`** - Configuración del módulo de eventos
 - **`src/events/events.controller.ts`** - Endpoints de la API
+- **`src/events/events.service.ts`** - Servicio de eventos (funciona en memoria por defecto)
+- **`src/events/event.entity.ts`** - Modelo de datos para PostgreSQL
 - **`src/stats/`** - Módulo de estadísticas
 
-**💡 Tip:** Todos los archivos con instrucciones tienen comentarios extensos que te explican exactamente qué hacer.
+**💡 Tip:** Todo lo que necesitas para PostgreSQL está en `GUIA_POSTGRESQL_COMPLETA.txt`
 
-## 🚀 Conectando a PostgreSQL (Guía Práctica)
+## 🚀 Escalando a PostgreSQL
 
 Por defecto, este proyecto funciona con datos "en memoria", lo que significa que cada vez que reinicias el servidor, todos los eventos que creaste se borran. Esto es ideal para pruebas rápidas, pero no para una aplicación real.
 
-Esta guía te enseñará a dar el siguiente paso: conectar la API a **PostgreSQL** usando **TypeORM**. Tus datos se guardarán permanentemente y podrás escalar tu aplicación sin problemas.
+**¿Quieres conectar tu API a PostgreSQL para guardar datos permanentemente?**
 
-### Paso 1: Instalar las Dependencias
+📄 **Sigue la guía completa:** `GUIA_POSTGRESQL_COMPLETA.txt`
 
-**⚠️ ¿Ves errores de TypeORM en tu editor?** Esto es normal si aún no has instalado TypeORM. Los errores desaparecerán una vez que completes este paso.
+Esta guía incluye:
+- ✅ Instalación de PostgreSQL
+- ✅ Configuración paso a paso
+- ✅ Código listo para copiar y pegar
+- ✅ Solución de problemas comunes
+- ✅ Variables de entorno opcionales
 
-Primero, necesitamos las herramientas para que NestJS pueda hablar con PostgreSQL. Abre tu terminal y ejecuta:
-
-```bash
-npm install --save @nestjs/typeorm typeorm pg
-```
-
--   `@nestjs/typeorm`: El pegamento oficial entre NestJS y TypeORM.
--   `typeorm`: El "traductor" (ORM) que convierte nuestro código TypeScript en comandos de base de datos.
--   `pg`: El "motor" de PostgreSQL para Node.js.
-
-**Nota:** Los archivos de ejemplo (como `event.entity.ts`) están preparados para funcionar con TypeORM, pero darán errores de compilación hasta que instales estas dependencias.
-
-### Paso 2: Sigue las Instrucciones Detalladas
-
-**Abre `src/database-postgres.example.ts`** - Ahí están todas las instrucciones paso a paso con código listo para copiar y pegar.
-
-El archivo incluye:
-- Instalación de PostgreSQL
-- Creación de la base de datos  
-- Configuración de todos los módulos
-- Código completo para cada archivo
-
-2.  **Instala PostgreSQL en tu máquina:**
-    -   **Windows**: Descarga desde https://www.postgresql.org/download/windows/
-    -   **macOS**: `brew install postgresql`
-    -   **Ubuntu**: `sudo apt install postgresql postgresql-contrib`
-
-3.  **Crea la base de datos:**
-    -   Abre psql (línea de comandos de PostgreSQL)
-    -   Ejecuta: `CREATE DATABASE statstracker;`
-    -   Sal con: `\q`
-
-4.  **Conecta la configuración a la aplicación:**
-    -   Abre `src/app.module.ts`.
-    -   Reemplaza TODO el contenido con lo comentado al final de la hoja
-
-
-### 🚀 ¿Listo para producción?
-
-Tu configuración ya está preparada para escalar:
-- **Desarrollo**: Funciona perfectamente en tu máquina local
-- **Producción**: Solo necesitas cambiar las variables de entorno para conectarte a PostgreSQL en la nube (Heroku, Railway, etc.)
+**💡 Todo está en un solo archivo - no necesitas buscar en múltiples lugares.**
 
 ## Cómo Ejecutar y Probar la API (Guía para Frontend)
 
