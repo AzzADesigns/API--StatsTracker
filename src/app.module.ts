@@ -31,26 +31,7 @@ export class AppModule {}
 
 ### Paso 2: Preparar el Módulo de Eventos
 
-Ahora, le diremos al `EventsModule` que la entidad `Event` existe y que debe estar disponible para inyección.
-
--   Abre `src/events/events.module.ts`.
--   Reemplaza TODO el contenido con esto:
-
-```typescript
-// src/events/events.module.ts
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Event } from './event.entity';
-import { EventsController } from './events.controller';
-import { EventsService } from './events.service';
-
-@Module({
-  imports: [TypeOrmModule.forFeature([Event])],
-  controllers: [EventsController],
-  providers: [EventsService],
-  exports: [EventsService],
-})
-export class EventsModule {}
+Ahora, a estas alturas , debes haber copiado lo que hay es database-postgres.example.ts
 ```
 
 ### Paso 3: Actualizar el Servicio (Opcional)
