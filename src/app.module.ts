@@ -10,7 +10,7 @@ export class AppModule {}
 
 {/*
   ### Paso 1: Modificar AppModule para usar TypeORM
-      // src/app.module.ts
+
     import { Module } from '@nestjs/common';
     import { TypeOrmModule } from '@nestjs/typeorm';
     import { databaseConfig } from './database-postgres';
@@ -27,7 +27,7 @@ export class AppModule {}
       providers: [],
     })
     export class AppModule {}
-    ```
+
 
 ### Paso 2: Preparar el Módulo de Eventos
 
@@ -42,14 +42,4 @@ Ahora, a estas alturas , debes haber copiado lo que hay es database-postgres.exa
 - Abre `src/events/events.service.ts`
 - Reemplaza todo el código con la versión comentada al final del archivo
 - ¡Y listo! Tu API usará PostgreSQL
-
-### ¿Qué acabas de hacer?
-
-1.  Has configurado una conexión a una base de datos PostgreSQL.
-2.  Has transformado la lógica de negocio para que sea persistente.
-3.  Has aprendido el flujo para integrar una nueva entidad y un repositorio de TypeORM en un módulo de NestJS.
-
-La próxima vez que inicies la aplicación con `npm run start:dev`, tu API se conectará a PostgreSQL y creará automáticamente las tablas necesarias. Todos los eventos que crees a través de la API se guardarán permanentemente y sobrevivirán a los reinicios del servidor.
-  
-  
   */}
