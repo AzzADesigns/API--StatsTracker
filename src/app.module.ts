@@ -9,7 +9,7 @@ export class AppModule {}
 
 
 {/*
-  
+  ### Paso 1: Modificar AppModule para usar TypeORM
       // src/app.module.ts
     import { Module } from '@nestjs/common';
     import { TypeOrmModule } from '@nestjs/typeorm';
@@ -29,7 +29,7 @@ export class AppModule {}
     export class AppModule {}
     ```
 
-### Paso 3: Preparar el Módulo de Eventos
+### Paso 2: Preparar el Módulo de Eventos
 
 Ahora, le diremos al `EventsModule` que la entidad `Event` existe y que debe estar disponible para inyección.
 
@@ -53,7 +53,7 @@ import { EventsService } from './events.service';
 export class EventsModule {}
 ```
 
-### Paso 4: Actualizar el Servicio (Opcional)
+### Paso 3: Actualizar el Servicio (Opcional)
 
 **Por defecto, tu API funciona perfectamente en memoria.** No necesitas cambiar nada más.
 
