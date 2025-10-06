@@ -9,3 +9,4 @@ import { EventsModule } from '../events/events.module';
   providers: [StatsService],
 })
 export class StatsModule {}
+

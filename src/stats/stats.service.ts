@@ -28,3 +28,4 @@ export class StatsService {
     return { ranking };
   }
 }
+

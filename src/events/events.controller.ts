@@ -48,3 +48,4 @@ export class EventsController {
     return { message: `Evento ${id} eliminado` };
   }
 }
+

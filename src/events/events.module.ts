@@ -8,3 +8,4 @@ import { EventsController } from './events.controller';
   exports: [EventsService],
 })
 export class EventsModule {}
+

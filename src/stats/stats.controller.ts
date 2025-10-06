@@ -28,3 +28,4 @@ export class StatsController {
     return this.statsService.userRanking();
   }
 }
+

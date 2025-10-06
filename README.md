@@ -109,6 +109,80 @@ Con los datos registrados, el frontend puede construir un dashboard de "Progreso
 
 Este ejemplo demuestra cómo la API, con su estructura genérica, puede ser la base para una aplicación especializada, útil y destacable, sin necesidad de modificar el backend.
 
+## 📁 Mapa del Proyecto
+
+Para que sepas exactamente dónde encontrar todo lo que necesitas:
+
+### 🚀 **Archivos de configuración para escalar:**
+- **`src/database-postgres.example.ts`** - Configuración completa de PostgreSQL (renombra a `database-postgres.ts` para usar)
+- **`src/events/event.entity.ts`** - Modelo de datos para la base de datos
+- **`src/events/events.service.ts`** - Servicio principal (contiene versión comentada para PostgreSQL al final)
+
+### 📋 **Archivos con instrucciones detalladas:**
+- **`src/database-postgres.example.ts`** - Instrucciones paso a paso para PostgreSQL
+- **`src/events/events.service.ts`** - Código listo para copiar y pegar (comentado al final)
+
+### 🎯 **Archivos principales (no tocar):**
+- **`src/app.module.ts`** - Configuración principal de la app (al final de la hoja hay instrucciones para escalar a una base de datos con postgres)
+- **`src/events/events.module.ts`** - Configuración del módulo de eventos
+- **`src/events/events.controller.ts`** - Endpoints de la API
+- **`src/stats/`** - Módulo de estadísticas
+
+**💡 Tip:** Todos los archivos con instrucciones tienen comentarios extensos que te explican exactamente qué hacer.
+
+## 🚀 Conectando a PostgreSQL (Guía Práctica)
+
+Por defecto, este proyecto funciona con datos "en memoria", lo que significa que cada vez que reinicias el servidor, todos los eventos que creaste se borran. Esto es ideal para pruebas rápidas, pero no para una aplicación real.
+
+Esta guía te enseñará a dar el siguiente paso: conectar la API a **PostgreSQL** usando **TypeORM**. Tus datos se guardarán permanentemente y podrás escalar tu aplicación sin problemas.
+
+### Paso 1: Instalar las Dependencias
+
+**⚠️ ¿Ves errores de TypeORM en tu editor?** Esto es normal si aún no has instalado TypeORM. Los errores desaparecerán una vez que completes este paso.
+
+Primero, necesitamos las herramientas para que NestJS pueda hablar con PostgreSQL. Abre tu terminal y ejecuta:
+
+```bash
+npm install --save @nestjs/typeorm typeorm pg
+```
+
+-   `@nestjs/typeorm`: El pegamento oficial entre NestJS y TypeORM.
+-   `typeorm`: El "traductor" (ORM) que convierte nuestro código TypeScript en comandos de base de datos.
+-   `pg`: El "motor" de PostgreSQL para Node.js.
+
+**Nota:** Los archivos de ejemplo (como `event.entity.ts`) están preparados para funcionar con TypeORM, pero darán errores de compilación hasta que instales estas dependencias.
+
+### Paso 2: Sigue las Instrucciones Detalladas
+
+**Abre `src/database-postgres.example.ts`** - Ahí están todas las instrucciones paso a paso con código listo para copiar y pegar.
+
+El archivo incluye:
+- Instalación de PostgreSQL
+- Creación de la base de datos  
+- Configuración de todos los módulos
+- Código completo para cada archivo
+
+2.  **Instala PostgreSQL en tu máquina:**
+    -   **Windows**: Descarga desde https://www.postgresql.org/download/windows/
+    -   **macOS**: `brew install postgresql`
+    -   **Ubuntu**: `sudo apt install postgresql postgresql-contrib`
+
+3.  **Crea la base de datos:**
+    -   Abre psql (línea de comandos de PostgreSQL)
+    -   Ejecuta: `CREATE DATABASE statstracker;`
+    -   Sal con: `\q`
+
+4.  **Conecta la configuración a la aplicación:**
+    -   Abre `src/app.module.ts`.
+    -   Reemplaza TODO el contenido con lo comentado al final de la hoja
+
+
+### 🚀 ¿Listo para producción?
+
+Tu configuración ya está preparada para escalar:
+- **Desarrollo**: Funciona perfectamente en tu máquina local
+- **Producción**: Solo necesitas cambiar las variables de entorno para conectarte a PostgreSQL en la nube (Heroku, Railway, etc.)
+
 ## Cómo Ejecutar y Probar la API (Guía para Frontend)
 
 Esta guía te llevará paso a paso para iniciar el backend y explorarlo por primera vez, incluso si no tienes experiencia con NestJS o Swagger.
@@ -163,3 +237,4 @@ Ahora, vamos a crear un evento para ver cómo funciona una petición `POST`.
 **Bonus:** Si ahora vuelves a ejecutar la prueba del `GET /stats/total` como en el paso 3, verás que la respuesta ha cambiado. Ahora dirá `{"total": 1}`. Esto demuestra que estás interactuando en tiempo real con la lógica del backend.
 
 Con Swagger, puedes entender y probar cada rincón de la API antes de empezar a construir tu interfaz de usuario, haciendo tu trabajo mucho más fácil y rápido.
+
