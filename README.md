@@ -121,9 +121,9 @@ Para que sepas exactamente dónde encontrar todo lo que necesitas:
 ### 📋 **Archivos con instrucciones detalladas:**
 - **`src/database-postgres.example.ts`** - Instrucciones paso a paso para PostgreSQL
 - **`src/events/events.service.ts`** - Código listo para copiar y pegar (comentado al final)
+- **`src/app.module.ts`** - Configuración principal de la app (al final de la hoja hay instrucciones para escalar a una base de datos con postgres)
 
 ### 🎯 **Archivos principales (no tocar):**
-- **`src/app.module.ts`** - Configuración principal de la app (al final de la hoja hay instrucciones para escalar a una base de datos con postgres)
 - **`src/events/events.module.ts`** - Configuración del módulo de eventos
 - **`src/events/events.controller.ts`** - Endpoints de la API
 - **`src/stats/`** - Módulo de estadísticas
